@@ -191,6 +191,8 @@ Pipeline2 will run automatically after Pipeline1 completes.
 
 # 2. Build Periodically (CRON)
 \* \* \* \* \*
+
+
 Meaning → Run the pipeline every 1 minute
 Trigger continues until manually disabled.
 
@@ -209,6 +211,8 @@ Combination of webhook + schedule.
 
 Example:
    \* \* \* \* \*
+
+   
 Behaviour:
 
 Jenkins does not run immediately after a GitHub commit
