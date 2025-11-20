@@ -38,36 +38,33 @@ sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 sudo yum -y install terraform
 
-3. Make Script Executable and Run
+# 3. Make Script Executable and Run
 chmod 755 install.sh
 sh install.sh
 
- - Open your browser and navigate to:
+# - Open your browser and navigate to:
 http://<public-ip>:8080
 - Copy the initial admin password from the path shown on the Jenkins page:
 cat /var/lib/jenkins/secrets/initialAdminPassword
 - Complete the setup wizard and install recommended plugins.
 
-  🔐 IAM Role for Terraform
+#  🔐 IAM Role for Terraform
 Attach an IAM role to the EC2 instance with permissions to manage AWS resources. This is required for Terraform to function properly within Jenkins.
 
-🔌 Install Required Jenkins Plugins
+# 🔌 Install Required Jenkins Plugins
 - Go to: Manage Jenkins → Plugins
 - Install: Pipeline, Pipeline: Stage View
 - Return to Jenkins home page
 
- Configure Jenkins Pipeline
+# Configure Jenkins Pipeline
 Create a new pipeline job and use the following script:
 
-pipeline {
-    agent any
 
-    triggers {
-        cron('H 20 * * *') // Runs daily at 8 PM
-    }
-
-    stages {
-        stage('Clone Repo') {
+  pipeline {
+  
+      stages {
+      
+          stage('Clone Repo') {
             steps {
                 git url: 'https://github.com/Ranjit-08/Terraform-Repo.git'
             }
@@ -91,7 +88,7 @@ pipeline {
     }
 }
 
- Jenkins Workspace Path
+# Jenkins Workspace Path
 Terraform code will execute from:
 cd /var/lib/jenkins/workspace/<pipeline-name>
 
