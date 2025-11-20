@@ -190,7 +190,7 @@ Project: Pipeline1
 Pipeline2 will run automatically after Pipeline1 completes.
 
 # 2. Build Periodically (CRON)
-* * * * *
+\* \* \* \* \*
 Meaning → Run the pipeline every 1 minute
 Trigger continues until manually disabled.
 
@@ -208,7 +208,7 @@ After saving — committing code will automatically trigger Jenkins.
 Combination of webhook + schedule.
 
 Example:
-* * * * *
+   \* \* \* \* \*
 Behaviour:
 
 Jenkins does not run immediately after a GitHub commit
