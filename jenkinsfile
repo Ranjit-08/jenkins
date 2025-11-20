@@ -1,10 +1,5 @@
 pipeline {
     agent any
-
-    triggers {
-        cron('H 20 * * *')  // Runs every day at 8 PM
-    }
-
     stages {
         stage('Clone Repo') {
             steps {
@@ -29,3 +24,60 @@ pipeline {
         }
     }
 }
+##################code for add parameters and choices directly in the code ###########
+pipeline {
+    agent any
+
+    // ---------- PARAMETERS ----------
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['plan', 'apply', 'destroy'],
+            description: 'Select Terraform action'
+        )
+    }
+
+    stages {
+
+        // ---------- CLONE REPO ----------
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ranjit-08/jenkins.git'
+            }
+        }
+
+        // ---------- TERRAFORM INIT ----------
+        stage('Terraform Init') {
+            steps {
+                sh '''
+                    terraform init
+                '''
+            }
+        }
+
+        // ---------- TERRAFORM EXECUTION ----------
+        stage('Terraform Action') {
+            steps {
+                script {
+
+                    if (params.ACTION == 'plan') {
+                        sh 'terraform plan'
+                    }
+
+                    if (params.ACTION == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                    }
+
+                    if (params.ACTION == 'destroy') {
+                        sh 'terraform destroy -auto-approve'
+                    }
+                }
+            }
+        }
+    }
+}
+
+#### we can add it though this project is parameterised
+### this project is parameterised --> choice --> name = action -->
+##choices = apply 
+##        destroy
