@@ -101,7 +101,7 @@ install the dependencies
 # Retrieve the initial Jenkins admin password:
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 # Open Jenkins in browser:
-http://<public-ip>:8080
+http://public-ip:8080
 # 📦 2. Install Required Plugins
 Navigate to:
 Jenkins → Manage Jenkins → Plugins → Available Plugins
