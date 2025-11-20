@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    triggers {
+        cron('H 20 * * *')  // Runs every day at 8 PM
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git url: 'https://github.com/Ranjit-08/Terraform-Repo.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('day-1-basic-code') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Destroy') {
+            steps {
+                dir('day-1-basic-code') {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
+    }
+}
