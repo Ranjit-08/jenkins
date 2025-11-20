@@ -44,7 +44,7 @@ chmod 755 install.sh
 sh install.sh
 
 # - Open your browser and navigate to:
-http://<public-ip>:8080
+ http://public-ip:8080
 - Copy the initial admin password from the path shown on the Jenkins page:
 cat /var/lib/jenkins/secrets/initialAdminPassword
 - Complete the setup wizard and install recommended plugins.
