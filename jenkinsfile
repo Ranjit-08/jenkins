@@ -1,3 +1,5 @@
+
+######### day01 #####################
 pipeline {
     agent any
     stages {
@@ -81,3 +83,42 @@ pipeline {
 ### this project is parameterised --> choice --> name = action -->
 ##choices = apply 
 ##        destroy
+
+
+pipeline {
+    agent any
+    stages {
+
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ranjit-08/Terraform-Repo.git'
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('day-1-basic-code') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                dir('day-1-basic-code') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Terraform Apply/Destroy') {
+            steps {
+                dir('day-1-basic-code') {
+                    sh "terraform ${params.action} -auto-approve"
+                }
+            }
+        }
+
+    }
+}
+
