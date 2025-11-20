@@ -7,6 +7,6 @@ resource "aws_instance" "my_ec2" {
   instance_type = "t3.micro"
 
   tags = {
-    Name = "ranjit-samal-ec2"
+    Name = "ranjit-instance"
   }
 }
