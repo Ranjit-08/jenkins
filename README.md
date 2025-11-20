@@ -1,4 +1,4 @@
-# Day 01 – Jenkins Setup on AWS EC2 🚀
+ # Day 01 – Jenkins Setup on AWS EC2 🚀
 # This guide walks through setting up Jenkins on an EC2 instance, installing required dependencies, and configuring a Jenkins pipeline to run Terraform code.
 # 🖥️ EC2 Instance Setup
 - Instance Name: Jenkins
@@ -61,16 +61,13 @@ Attach an IAM role to the EC2 instance with permissions to manage AWS resources.
 Create a new pipeline job and use the following script:
 
 
-  pipeline {
-  
+    pipeline {
       stages {
-      
           stage('Clone Repo') {
             steps {
                 git url: 'https://github.com/Ranjit-08/Terraform-Repo.git'
             }
         }
-
         stage('Terraform Init') {
             steps {
                 dir('day-1-basic-code') {
@@ -78,7 +75,6 @@ Create a new pipeline job and use the following script:
                 }
             }
         }
-
         stage('Terraform Destroy') {
             steps {
                 dir('day-1-basic-code') {
@@ -87,7 +83,7 @@ Create a new pipeline job and use the following script:
             }
         }
     }
-}
+    }
 
 # Jenkins Workspace Path
 Terraform code will execute from:
