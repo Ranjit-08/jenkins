@@ -1,21 +1,22 @@
-Day 01 – Jenkins Setup on AWS EC2 🚀
-This guide walks through setting up Jenkins on an EC2 instance, installing required dependencies, and configuring a Jenkins pipeline to run Terraform code.
-🖥️ EC2 Instance Setup
+# Day 01 – Jenkins Setup on AWS EC2 🚀
+# This guide walks through setting up Jenkins on an EC2 instance, installing required dependencies, and configuring a Jenkins pipeline to run Terraform code.
+# 🖥️ EC2 Instance Setup
 - Instance Name: Jenkins
 - Instance Type: t2.medium
 - OS: Amazon Linux 2
   
-🔧 Installation Steps
+# 🔧 Installation Steps
 1. Connect to EC2 and Switch to Root
 ssh -i <your-key>.pem ec2-user@<public-ip>
 sudo su -
 
-2. Create Installation Script
+# 2. Create Installation Script
 Create a shell script install.sh to install all dependencies:
 vim install.sh
 
 Paste the following content:
 
+or you can install it one by one
 
 #!/bin/bash
 sudo yum update -y
