@@ -230,3 +230,159 @@ It checks for changes according to the schedule (every minute)
  • GitHub webhook
  • Poll SCM trigger
 
+# day03 jankins
+# Jenkins – Master/Slave Setup, Change Default Jenkins Port & Change Jenkins Home Path
+
+This guide covers three important Jenkins administration concepts:
+
+Jenkins Master–Slave (Agent) Architecture
+
+Changing Jenkins Default Port (8080 → Custom Port)
+
+Changing Jenkins Default Home Directory (/var/lib/jenkins → Custom Path)
+
+🚀 1. Jenkins Master–Slave Architecture
+
+Jenkins Master–Slave (Controller–Agent) allows you to distribute your CI/CD workloads across multiple servers.
+
+✅ Why Use Master–Slave?
+
+Run builds on different OS (Linux, Windows, etc.)
+
+Reduce load on the master node
+
+Scale Jenkins horizontally
+
+Isolate builds for security
+
+# create 2 instances 1 master 1 slave t2.medium 
+in the master server install 
+1. java
+2. jenkins
+then start and check the status
+access the jenkins using the port 8080 with public ip
+# On the Jenkins Master
+
+Go to: Manage Jenkins → Manage Nodes and Clouds → New Node
+
+Enter node name → Choose Permanent Agent
+
+Fill the settings:
+
+Remote root directory: /home/ec2-user
+
+Labels: dev (or anything you want)
+
+# create a node in master for slave
+settings --> nodes --> new node --> node1 --> click on permanent agent create 
+change the remote root directory to 
+/home/ec2-user
+write a label dev
+save 
+click on the node copy the agent link 
+
+# 🔧 Steps to Configure Slave (Agent) Node
+# 1️⃣ On the Agent (Slave) machine
+
+Install Java (Jenkins requires Java):
+
+sudo yum install java-11-openjdk -y
+
+yum install git -y
+
+install the agent in the slaves server inside 'one by one first url then command 
+
+The node will connect successfully.
+
+now if you run any pipeline in the master with the label dev it will automaticlly reflect in the slave server path inside 
+
+    pipeline {
+     agent { label 'dev' }
+
+    stages {
+        stage('clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ranjit-08/jenkins.git'
+            }
+        }
+    }
+    }
+
+
+🔥 2. Change the Default Jenkins Port (8080 → Another Port)
+
+The Jenkins default port is 8080.
+You can change it to 9090, 8000, etc.
+
+Method: Edit Jenkins Service File
+
+Open the systemd service file:
+
+sudo vi /usr/lib/systemd/system/jenkins.service
+
+
+Find this line:
+
+Environment="JENKINS_PORT=8080"
+
+
+Change it to:
+
+Environment="JENKINS_PORT=9090"
+
+Restart Jenkins
+sudo systemctl daemon-reload
+sudo systemctl restart jenkins
+sudo systemctl status jenkins
+
+
+Verify in browser:
+
+http://public-ip:9090
+
+📦 3. Change the Default Jenkins Home Path (/var/lib/jenkins)
+
+Default Jenkins home directory:
+
+/var/lib/jenkins
+
+
+If you want to move Jenkins data to a new location (example: /mnt/jenkins_home):
+# stop the jenkins first
+
+systemctl stop jenkins
+
+# 1️⃣ Create New Directory
+sudo mkdir -p /mnt/jenkins_home
+sudo chown -R jenkins:jenkins /mnt/jenkins_home
+sudo chmod 750 /mnt/jenkins_home
+
+# 2️⃣ Update Jenkins Service File
+
+Open:
+
+sudo vi /usr/lib/systemd/system/jenkins.service
+
+
+Find:
+
+Environment="JENKINS_HOME=/var/lib/jenkins"
+WorkingDirectory=/var/lib/jenkins
+
+
+Change to:
+
+Environment="JENKINS_HOME=/mnt/jenkins_home"
+WorkingDirectory=/mnt/jenkins_home
+
+# 3️⃣ Copy Old Jenkins Data
+sudo cp -a /var/lib/jenkins/. /mnt/jenkins_home/
+
+# 4️⃣ Restart Jenkins
+sudo systemctl daemon-reload
+sudo systemctl restart jenkins
+
+
+Verify 
+
+ ls /mnt/jenkins_home/workspace
